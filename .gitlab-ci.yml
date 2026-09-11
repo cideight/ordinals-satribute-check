@@ -1,0 +1,16 @@
+variables:
+  GIT_DEPTH: 0
+
+stages:
+  - deploy
+
+to_github:
+  stage: deploy
+  tags:
+    - deploy
+  script:
+    # Push the current state directly to the main branch on GitHub
+    - git push --force https://cideight:${GITHUB_TOKEN}@github.com/cideight/ordinals-satribute-check.git HEAD:refs/heads/main --tags
+  rules:
+    # Run only when the Git tag starts with "release-v"
+    - if: $CI_COMMIT_TAG =~ /^release-v/
